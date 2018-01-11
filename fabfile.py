@@ -11,7 +11,7 @@ import commands.setup_test_site    as cmd_setup_test_site
 import commands.fix_aws_cloudwatch as cmd_fix_aws_cloudwatch
 
 """
-I have a file called hostlist.py containing my hostnames. Since this is
+I have a file called host_list.py containing my host aliases. Since this is
 mildly-sensitive data, I am withholding it from the repo.
 
 KNOWN_HOSTS is just a list of host strings that can be put into env.hosts.
