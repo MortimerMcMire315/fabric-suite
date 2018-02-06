@@ -2,13 +2,18 @@ from fabric.api import sudo,env,settings,parallel,task
 
 from util import dangerous
 
-import commands.check_ssl          as cmd_check_ssl
-import commands.update_unoconv     as cmd_update_unoconv
-import commands.update_php         as cmd_update_php
-import commands.switch_database    as cmd_switch_database
-import commands.package_moodle     as cmd_package_moodle
-import commands.setup_test_site    as cmd_setup_test_site
-import commands.fix_aws_cloudwatch as cmd_fix_aws_cloudwatch
+import commands
+
+import commands.check_ssl
+import commands.update_unoconv
+import commands.update_php
+import commands.switch_database
+import commands.package_moodle
+import commands.setup_test_site
+import commands.fix_aws_cloudwatch
+import commands.create_sftp_account
+import commands.check_hd_space
+import commands.check_mem_free
 
 """
 I have a file called hostlist.py containing my hostnames. Since this is
@@ -28,35 +33,35 @@ if not env.hosts:
 
 @task
 def check_ssl():
-    cmd_check_ssl.execute()
+    commands.check_ssl.execute()
 
 @task
 def update_unoconv():
-    cmd_update_unoconv.execute()
+    commands.update_unoconv.execute()
 
 @task
 @dangerous
 def update_php():
-    cmd_update_php.execute()
+    commands.update_php.execute()
 
 @task
 def get_php_version():
-    cmd_update_php.get_php_version()
+    commands.update_php.get_php_version()
 
 @task
 @dangerous
 def switch_database():
-    cmd_switch_database.execute()
+    commands.switch_database.execute()
 
 @task
 @dangerous
 def package_moodle():
-    cmd_package_moodle.execute()
+    commands.package_moodle.execute()
 
 @task
 @dangerous
 def setup_test_site():
-    cmd_setup_test_site.execute()
+    commands.setup_test_site.execute()
 
 
 """
@@ -65,4 +70,19 @@ Regenerate AWS instance id; fix server datetime
 @task
 @dangerous
 def fix_aws_cloudwatch():
-    cmd_fix_aws_cloudwatch.execute()
+    commands.fix_aws_cloudwatch.execute()
+
+@task
+@dangerous
+def create_sftp_account():
+    commands.create_sftp_account.execute()
+
+@parallel(20)
+@task
+def check_hd_space():
+    commands.check_hd_space.execute()
+
+@parallel(20)
+@task
+def check_mem_free():
+    commands.check_mem_free.execute()
